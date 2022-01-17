@@ -1,8 +1,11 @@
+import time
 from pickle import FALSE
 import sys
 sys.path.append('..')
 import os
 os.environ["KMP_DUPLICATE_LIB_OK"]="TRUE"
+from math import factorial as F
+import matplotlib.pyplot as plt
 
 import numpy as np
 import torch
@@ -42,7 +45,7 @@ for i in range(4):
 for i in range(4):
     obs = env.reset()
     obs, _, reward, done = env.step(move)
-    obs, _, reward, done = env.step(move)
+    obs, _, reward, done = env.step(0)
     obs, _, reward, done = env.step(move)
     
     if i == 0: 
@@ -55,7 +58,7 @@ print("Same but state transitions" )
 for i in range(4):
     obs = env.reset()
     s = dyn(repr(vector2d_to_tensor_for_model(obs).float()),move)
-    s = dyn(s,move)
+    s = dyn(s,0)
     s = dyn(s,move)
     s = dyn(s,i)
     print(pred(s))
@@ -97,13 +100,38 @@ ep_h = []
 def Play_Episode_Wrapper():
     with torch.no_grad():
         ep = Episode(jake_zero,epsilon)
-        metrics, rew = ep.play_episode(True, epoch = 10000, view_game =False)
+        metrics, rew = ep.play_episode(True, epoch = 500, view_game =True)
         # replay_buffer.add_ep_log(metrics)
         print(rew)
         ep_h.append(rew)
-import time
+
+
+def plot_beta(a,b):
+
+    def normalisation_beta(a,b):
+        return 1/ (F(a-1)*F(b-1) / F(a+b-1))
+
+    def beta_val(a,b,val):
+        return normalisation_beta(a,b) * val**(a-1) * (1-val)**(b-1)
+    
+    X = np.linspace(0,1,100)
+    y = [beta_val(a,b,x) for x in X]
+    plt.plot(X,y)
+
 tn = time.time()
-for _ in range(100):
+fig = plt.figure()
+plt.savefig('saved_plt.png')
+
+for _ in range(10):
     Play_Episode_Wrapper()
+    a = 1 + np.sum(ep_h)
+    b = 2 + len(ep_h) - np.sum(ep_h)
+    plot_beta(a,b)
+    plt.savefig('saved_plt.png')
+
+    plt.pause(0.001)
+    plt.close()
+
+
 print(np.sum(ep_h), np.mean(ep_h))
 print(time.time()- tn)

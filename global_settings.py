@@ -43,13 +43,13 @@ policy_output_supp = 4
 #### Training parameters
 
 #### mcts functions
-c1 = 1.25
+c1 = 1
 c2 = 19652
 ucb_noise = [0,0.01]
 temperature_init = 1
-temperature_changes ={-1: 1, 512: 0.5}
-play_limit_mcts = {-1: 9, 20: 40}
-manual_over_ride_play_limit = None #only used in final testing
+temperature_changes ={-1: 1, 320: 0.5}
+play_limit_mcts = {-1:5, 30: 13, 128: 25}
+manual_over_ride_play_limit = 100 #only used in final testing
 exponent_node_n = 1
 ucb_denom_k = 1
 use_policy = True
@@ -69,11 +69,11 @@ batches_per_train = 4
 workers = 64
 training_params = {'lr': 0.002,
                 'lr_warmup': 25,
-                'lr_decay': 0.5,
-                'lr_decay_steps':256,
+                'lr_decay': 0.25,
+                'lr_decay_steps':1000,
                  'optimizer' : torch.optim.RMSprop,
-                 'k': 5,
-                 'policy_coef': 0.25,
+                 'k': 4,
+                 'policy_coef': 0.75,
                  'momentum' : 0.9,
                  'policy_ramp_up':1,
                  'entropy_coef': 0,
