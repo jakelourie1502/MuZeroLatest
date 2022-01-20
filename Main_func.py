@@ -16,8 +16,8 @@ from models.Dynamic import Dynamic
 from models.Prediction import Prediction
 from models.JakeZero import JakeZero
 from training_and_data.replay_buffer import Replay_Buffer
-from training_and_data.training import loss_func_v, loss_func_p, loss_func_entropy
-from global_settings import workers, gamma, epochs, device, gamma, actions_size, training_params, batches_per_train, batch_size, loading_in, start_epoch, train_start_batch_multiple, prioritised_replay
+from training_and_data.training import loss_func_v, loss_func_p, loss_func_entropy, loss_func_r
+from global_settings import workers, gamma, epochs, device, gamma, actions_size, value_only, training_params, batches_per_train, batch_size, loading_in, start_epoch, train_start_batch_multiple, prioritised_replay
 import torch    
 from numpy import save
 import gc
@@ -27,7 +27,6 @@ from pympler import asizeof
 
 
 ### LOAD IN PARAMETERS
-batch_size = global_settings.batch_size
 K = training_params['k']
 
 ### INITIALISE MODELS
@@ -56,6 +55,8 @@ replay_buffer = Replay_Buffer()
 ts = time.time()
 ep_history = []
 training_started = False
+pick_best = False
+value_coef = training_params['value_coef']
 
 def Play_Episode_Wrapper():
     with torch.no_grad():
@@ -70,7 +71,7 @@ for e in range(start_epoch, epochs):
         training_step_counter += 1
     
     ## SETTING EPOCH SPECIFIC PARAMETERS
-    policy_coef, entropy_coef, epsilon, pick_best, lr = get_epoch_params(e, training_step_counter)
+    entropy_coef, epsilon, lr = get_epoch_params(e, training_step_counter)
     for param_group in optimizer.param_groups:
             param_group['lr'] = lr
     
@@ -97,14 +98,13 @@ for e in range(start_epoch, epochs):
             sample_obs = sample_obs.float()
             s = jake_zero.representation(sample_obs)
             done_tensor = torch.zeros((len(indices),K))
-            done_pol_tensor = torch.zeros((len(indices),K))
             weights = torch.tensor(weights).to(device).reshape(-1,1)
             
             loss = 0
             for k in range(K):
                 action_index = np.array([replay_buffer.action_log[x+k] for x in indices])
-                s = jake_zero.dynamic(s,action_index)
                 p, v = jake_zero.prediction(s)
+                s, r = jake_zero.dynamic(s,action_index)
                 
                 ### get the done masks for the value targets (when in goal / lake state, a move should return a value, whereas it should not return a policy. when we have reward, V done mask should behave like P done mask)
                 dones = np.array([replay_buffer.done_logs[x+k-1] for x in indices])
@@ -113,26 +113,23 @@ for e in range(start_epoch, epochs):
                 else:
                     dones_k = torch.maximum(torch.tensor(dones), done_tensor[:, k-1]).to(device)
                     done_tensor[:, k] = dones_k
-                
-                ### get the done masks for the policy targets
-                dones_pol_k = np.array([replay_buffer.done_logs[x+k] for x in indices])
-                dones_pol_k = torch.maximum(torch.tensor(dones_pol_k), done_pol_tensor[:, k-1]).to(device)
-                done_pol_tensor[:, k] = dones_pol_k
 
-                true_values = torch.tensor(np.array([replay_buffer.fut_val_logs[x+k] for x in indices])).to(device).reshape(-1,1)
-                true_policy = torch.tensor(np.array([replay_buffer.policy_logs[x+k+1] for x in indices])).to(device).reshape(-1,actions_size)
-                loss_Vk = loss_func_v(v, true_values, dones_k.reshape(-1,1),weights)
-                loss_Pk = loss_func_p(p, true_policy, dones_pol_k.reshape(-1,1),weights)
+                dones_in_format = dones_k.reshape(-1,1)
+                if value_only:
+                    true_values = torch.tensor(np.array([replay_buffer.n_step_returns[x] for x in indices])).to(device).reshape(-1,1)
+                else:
+                    true_values = torch.tensor(np.array([replay_buffer.n_step_returns[x+k] for x in indices])).to(device).reshape(-1,1)
+                true_rewards = torch.tensor(np.array([replay_buffer.reward_logs[x+k] for x in indices])).to(device).reshape(-1,1)
+                true_policy = torch.tensor(np.array([replay_buffer.policy_logs[x+k] for x in indices])).to(device).reshape(-1,actions_size)
+                loss_Rk = loss_func_r(r, true_rewards, dones_in_format, weights)
+                loss_Vk = loss_func_v(v, true_values, dones_in_format,weights)
+                loss_Pk = loss_func_p(p, true_policy, dones_in_format,weights)
                 loss_entk = loss_func_entropy(p)
-                loss += loss_Vk
-                loss += loss_Pk * policy_coef
+                loss += loss_Rk
+                loss += loss_Vk * value_coef
+                loss += loss_Pk
                 loss += loss_entk * entropy_coef
-                # print(true_policy, p)
-            #### UNIT TEST IN LINE
-            # print("Line 134 checkRatio of V to P to E should be roughly 10: 2: 1:\n ", loss_Vk, policy_coef * loss_Pk, entropy_coef * loss_entk)
-            # print("Line 134 check: when we print the two done matrices, the policy one (second) should look like the first one one moved one to the left")
-            # print(done_tensor)
-            # print(done_pol_tensor)
+                
             loss.backward()
             optimizer.step(); optimizer.zero_grad()
         

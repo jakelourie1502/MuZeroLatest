@@ -5,7 +5,7 @@ import sys
 sys.path.append("..")
 sys.path.append(".")
 from global_settings import gamma
-from global_settings import env_size, goals, lakes, dist, actions_size, max_plays, play_random, lake_coverage,randomly_create_env
+from global_settings import env_size, goals, lakes, dist, actions_size, max_plays, play_random, lake_coverage,randomly_create_env, N_steps, value_support
 from utils import vector2d_to_tensor_for_model
 from .mcts import Node, MCTS
 import torch
@@ -22,12 +22,14 @@ class Episode:
         
     
     def play_episode(self,pick_best_policy=False, epoch=1,view_game = False):
+        running_reward = 0
         metrics = {}
-        for met in ['action','obs','reward','done','policy','V','search_val_logs']:
+        for met in ['action','obs','reward','done','policy','n_step_returns','V']:
             metrics[met] = []
         obs = self.env.reset()
 
         metrics['obs'].append(obs) #1 x 1 x obs(1) x obs(2)
+        
         mcts = MCTS(episode = self,epoch = epoch, pick_best = pick_best_policy)
         
         q_current = 1
@@ -38,36 +40,47 @@ class Episode:
             
             obs = vector2d_to_tensor_for_model(obs) #need to double unsqueeze here to create fictional batch and channel dims
             state = self.repr_model(obs.float())
-            root_node = Node('null',state)
+            root_node = Node('null')
+            root_node.state = state
             root_node.Q = q_current
-            policy, action, root_node.Q = mcts.one_turn(root_node)
+            policy, action, root_node.Q, V = mcts.one_turn(root_node)
             q_current = root_node.Q
             if np.random.uniform(0,1) < self.epsilon:
                 action = np.random.randint(0,4)
             
             obs, _, reward, done = self.env.step(action)
-            self.store_metrics(action, reward, obs,metrics,done,policy, root_node.Q)
+            running_reward += reward
+            self.store_metrics(action, reward, obs,metrics,done,policy, V)
             if done == True:
                 break #params for ending episode
                 
-        self.calculate_V_from_rewards(metrics) #using N step returns or whatever to calculate the returns.
+        self.calc_reward(metrics) #using N step returns or whatever to calculate the returns.
         metrics['obs'] = metrics['obs'][:-1] #otherwise we'd have one extra observation.
         del obs; torch.cuda.empty_cache()
-        return metrics, reward
+        # print("unit test: play_episode line 57 - printing reward, done, V and n step: ")
+        # print(metrics['reward'])
+        # print(metrics['done'])
+        # print(metrics['V'])
+        # print(metrics['n_step_returns'])
+        return metrics, running_reward
         
-    def store_metrics(self, action, reward,obs, metrics,done,policy, search_val):
+    def store_metrics(self, action, reward,obs, metrics,done,policy, V):
         metrics['obs'].append(copy.deepcopy(obs))
         metrics['action'].append(action)
         metrics['reward'].append(reward)
         metrics['done'].append(done)
         metrics['policy'].append(policy)
-        metrics['search_val_logs'].append(search_val)
+        metrics['V'].append(V)
 
-    def calculate_V_from_rewards(self,metrics):
-        #### We're going to use fully discounted future returns all the way to end of the episode and we return what is ultimately the value of getting to a new state.
-        rewards_list = metrics['reward'].copy()
-        for r in reversed(range(len(rewards_list)-1)):
-            rewards_list[r] += rewards_list[r+1] * self.gamma #THIS GETS VALUE
-        metrics['V'] = rewards_list
-    
-    
+    def calc_reward(self, metrics):
+        Vs = metrics['V']
+        Rs = np.array(metrics['reward'] )
+        Z = np.zeros_like((Rs))
+        Z += Rs*gamma
+        for n in range(1,N_steps):
+            Z[:-n] += Rs[n:]*(gamma**(n+1))
+        
+        Z[:-N_steps] += np.array(Vs[N_steps:])
+        Z = np.clip(Z,value_support[0],value_support[1])
+        metrics['n_step_returns'] = Z
+

@@ -1,6 +1,8 @@
 import numpy as np
 from IPython.display import clear_output
-from global_settings import randomly_create_env
+import sys
+sys.path.append("..")
+from global_settings import randomly_create_env, env_size, lakes, goals
 
 class EnvironmentModel:
     
@@ -18,7 +20,7 @@ class EnvironmentModel:
 
     def draw(self, state, action):
         p = [self.p(ns, state, action) for ns in range(self.n_states)]
-
+        
         next_state = self.random_state.choice(self.n_states, p=p)
         reward = self.r(next_state, state)
 
@@ -51,6 +53,7 @@ class gridWorld(Environment):
         if self.random_create:
             self.pick_random_goal()
             self.set_starting_pos()
+            self.create_star()
             self.lakes = []
             self.create_dicts_and_indexes() #repeat with new lakes
             self.lake_cov = np.random.uniform(lake_cov[0],lake_cov[1])
@@ -59,8 +62,12 @@ class gridWorld(Environment):
         else:            
             self.state = np.random.choice(list(range(self.n_states)),p=self.dist)
             self.goal_states = goals
+            
             self.lakes = lakes
             self.create_dicts_and_indexes()
+            self.goal_idx = self.coors_to_stateIdx[list(self.goal_states.keys())[0]]
+            
+            self.create_star()
 
         self.create_board()
         self._init_probs_dict()
@@ -79,12 +86,25 @@ class gridWorld(Environment):
         self.goal_idx = indexes[chosen]
 
     def set_starting_pos(self):
-        self.dist = np.zeros((self.h*self.w+1,))
-        for v in range(len(self.dist)-1):
-            if v != self.goal_idx and v in self.corner_idxs:
-                self.dist[v] = 1/3
-        self.state = np.random.choice(list(range(self.n_states)),p=self.dist)
+        if self.goal_idx == self.corner_idxs[0]:
+            self.state = self.corner_idxs[3]
+        if self.goal_idx == self.corner_idxs[3]:
+            self.state = self.corner_idxs[0]
+        if self.goal_idx == self.corner_idxs[1]:
+            self.state = self.corner_idxs[2]
+        if self.goal_idx == self.corner_idxs[2]:
+            self.state = self.corner_idxs[1]
 
+    def create_star(self):
+        star_dist = list(np.linspace(0,self.n_states-2, self.n_states-1))
+        star_dist.remove(self.state)
+        star_dist.remove(self.goal_idx)
+        star_dist = np.array(star_dist)
+        star_probs = np.ones_like(star_dist)
+        star_probs /= np.sum(star_probs)
+        self.star = []
+        self.star.append(np.random.choice(star_dist, p=star_probs))
+        
     def reset(self):
         obs = self.board.copy()
         blank_board = np.zeros((self.h, self.w))
@@ -101,7 +121,6 @@ class gridWorld(Environment):
         except:
             print("Here",action)
         self.n_steps += 1
-    
         self.state, reward = self.draw(self.state, action)
         done = (self.n_steps >= self.max_steps) or (self.state == self.terminal_state)
         obs = self.board.copy()
@@ -130,7 +149,16 @@ class gridWorld(Environment):
         
     def r(self, next_state, state):
         "The method r returns the expected reward in having transitioned from state to next state given action."
-        return self.goal_states_idx[state] if state in self.goal_states_idx else 0
+        if state == self.goal_idx:
+            return 1
+        elif state in self.lakes_idx:
+            return -1
+        elif state in self.star:
+            self.star = []
+            self.create_board()
+            return 0.5
+        else:
+            return -0.05
     
     def render(self):
         board = self.board.copy()
@@ -181,9 +209,11 @@ class gridWorld(Environment):
         h,w = self.h,self.w
         self.board = np.array([0.0] * h*w).reshape(h,w)
         for l in self.lakes:
-            self.board[l] = 0.5
+            self.board[l] = -1.0
         for g, r in self.goal_states.items():
             self.board[g] = 1.0
+        for s in self.star:
+            self.board[self.stateIdx_to_coors[int(s)]] = 0.5
     
     def _init_probs_dict(self):
         """
@@ -258,6 +288,7 @@ class gridWorld(Environment):
         number_of_lakes = int((self.n_states-1)*p) 
         possible_locations = list(range(self.n_states-1))
         possible_locations.remove(self.state)
+        possible_locations.remove(self.star[0])
         for s in self.goal_states_idx.keys():
             possible_locations.remove(s)
             
@@ -285,11 +316,19 @@ class gridWorld(Environment):
         return True    
 
 
+from global_settings import randomly_create_env, env_size, lakes, goals, actions_size, max_plays, dist, play_random, lake_coverage
 if __name__ == '__main__':
-    size = (12,12)
-    goals = {(size[0]-1,size[1]-1):1}
-    dist = np.zeros((size[0]*size[1]+1))
-    dist[0]=1
-    env=gridWorld(size,[],goals, n_actions = 4, max_steps = 100, dist = dist, seed = None, rnd=0.1)
-    env.generate_random_lakes(0.2)
-    print(env.reset())
+    
+    env=gridWorld(env_size,lakes,goals, n_actions = actions_size, max_steps = max_plays, 
+                        dist = dist, seed = None, rnd=play_random, lake_cov=lake_coverage,randomly_create_env= randomly_create_env)
+    done = False
+    obs = env.reset()
+    print(obs)
+    while not done:
+        
+        act = int(input("give me an action"))
+        obs, state, reward, done = env.step(act)
+        print(reward)
+        print(obs)
+        
+

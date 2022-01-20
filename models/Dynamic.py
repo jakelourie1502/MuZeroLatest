@@ -1,8 +1,10 @@
 import sys
+
+
 sys.path.append(".")
 import torch
 import torch.nn.functional as TF 
-from global_settings import actions_size, device, encodings_per_action, state_channels,first_layer_dyn_params, res_block_dyns
+from global_settings import env_size, actions_size, device, encodings_per_action, state_channels,first_layer_dyn_params, res_block_dyns,reward_conv_channels,reward_hidden_dim, reward_support
 from models.res_block import resBlock
 class Dynamic(torch.nn.Module):
     """
@@ -31,7 +33,13 @@ class Dynamic(torch.nn.Module):
                                                                     padding = 0)
         self.bn2 = torch.nn.BatchNorm2d(state_channels)
         self.resBlocks = torch.nn.ModuleList([resBlock(x) for x in res_block_dyns])
+        self.conv1x1_reward = torch.nn.Conv2d(in_channels=state_channels, out_channels=reward_conv_channels, kernel_size=1,padding=0, stride=1)
+        self.bn3 = torch.nn.BatchNorm2d(state_channels)
+        self.FC1 = torch.nn.Linear(env_size[0]*env_size[1]*state_channels, reward_hidden_dim)
+        self.bn4 = torch.nn.BatchNorm1d(reward_hidden_dim)
+        self.FC2 = torch.nn.Linear(reward_hidden_dim, reward_support[2])
         self.relu = torch.nn.ReLU()
+        self.sm = torch.nn.Softmax(dim=1)
 
     def forward(self,state,action):
         """
@@ -56,5 +64,16 @@ class Dynamic(torch.nn.Module):
         x = self.relu(x)
         for block in self.resBlocks:
           x = block(x)
-        
-        return x
+        state = x
+
+        ##reward bit
+        r = self.conv1x1_reward(x)
+        r = self.bn3(r)
+        r = self.relu(r)
+        r = torch.flatten(r, start_dim=1)
+        r = self.FC1(r)
+        r = self.bn4(r)
+        r = self.relu(r)
+        r = self.FC2(r)
+        r = self.sm(r)
+        return state, r

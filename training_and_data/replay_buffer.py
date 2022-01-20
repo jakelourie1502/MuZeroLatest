@@ -15,6 +15,7 @@ class Replay_Buffer():
     fut_val_log_t = 
     """
     def __init__(self):
+        """'action','obs','reward','done','policy','n_step_returns','V'"""
         self.k = training_params['k']
         self.default_size = batch_size
         self.size = replay_buffer_size
@@ -22,26 +23,21 @@ class Replay_Buffer():
         self.action_log = []
         self.reward_logs = []
         self.done_logs = []
-        self.fut_val_logs = []
         self.policy_logs = []
-        self.search_val_logs = []
+        self.n_step_returns = []
+        self.predicted_V = []
+
+
     def add_ep_log(self, metrics):
-        """Metrics dictionary of the form
-        metrics['obs']
-        metrics['next_ob']
-        metrics['action']
-        metrics['reward']
-        metrics['done']
-        metrics['V']
-        """
+        
         self.obs.extend(metrics['obs'])
         self.action_log.extend(metrics['action'])
         self.reward_logs.extend(metrics['reward'])
         self.done_logs.extend(metrics['done'])
-        self.fut_val_logs.extend(metrics['V'])
         self.policy_logs.extend(metrics['policy'])
-        self.search_val_logs.extend(metrics['search_val_logs'])
-    
+        self.n_step_returns.extend(metrics['n_step_returns'])
+        self.predicted_V.extend(metrics['V'])
+        
     def purge(self):
         no_of_examples = len(self.obs)
         if no_of_examples > self.size:
@@ -50,9 +46,9 @@ class Replay_Buffer():
             self.action_log = self.action_log[reduc: ]
             self.reward_logs = self.reward_logs[reduc: ]
             self.done_logs = self.done_logs[reduc: ]
-            self.fut_val_logs = self.fut_val_logs[reduc: ]
             self.policy_logs = self.policy_logs[reduc: ]
-            self.search_val_logs = self.search_val_logs[reduc: ]
+            self.n_step_returns = self.n_step_returns[reduc: ]
+            self.predicted_V = self.predicted_V[reduc: ]
 
     def get_sample(self, prioritised_sampling = True, batch_size = batch_size):
         #### Need to add get sample prioritised.
