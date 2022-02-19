@@ -1,0 +1,289 @@
+Test
+10 : 0.0
+[[307. 135.  37.   0.   0.   0.   0.   0.   0.   0.   0.   0.]
+ [146.  84.  29.   0.   0.   0.   0.   0.   0.   0.   0.   0.]
+ [ 84.  50.  15.   4.   1.   0.   0.   0.   0.   0.   0.   0.]
+ [ 63.  41.  11.   2.   0.   0.   0.   0.   0.   0.   0.   0.]]
+tensor(0.0055, grad_fn=<AddBackward0>) tensor(0.0058, grad_fn=<PowBackward0>)
+Test reward:  0.0
+LR:  0.00024
+replay buffer size:  1009
+training steps:  3
+Average siam loss:  -0.4017060650512576
+Average RDN loss:  0.002931680610345211
+20 : 0.0
+[[827. 439.  93.   0.   0.   0.   0.   0.   0.   0.   0.   0.]
+ [287. 130.  40.   0.   0.   0.   0.   0.   0.   0.   0.   0.]
+ [ 86.  61.  16.   4.   1.   0.   0.   0.   0.   0.   0.   0.]
+ [ 63.  41.  11.   2.   0.   0.   0.   0.   0.   0.   0.   0.]]
+tensor(0.0005, grad_fn=<AddBackward0>) tensor(0.0018, grad_fn=<PowBackward0>)
+Test reward:  0.0
+LR:  0.0010400000000000001
+replay buffer size:  2101
+training steps:  13
+Average siam loss:  -0.6932313945144415
+Average RDN loss:  0.00019250405375714763
+30 : 0.0
+[[1128.  574.  130.    0.    0.    0.    0.    0.    0.    0.    0.    0.]
+ [ 435.  209.   62.    2.    1.    0.    0.    0.    0.    0.    0.    0.]
+ [ 168.  124.   36.   11.    4.    0.    0.    0.    0.    0.    0.    0.]
+ [ 121.   75.   22.    2.    0.    0.    0.    0.    0.    0.    0.    0.]]
+tensor(0.0002, grad_fn=<AddBackward0>) tensor(0.0011, grad_fn=<PowBackward0>)
+Test reward:  0.0
+LR:  0.00184
+replay buffer size:  3104
+training steps:  23
+Average siam loss:  -0.7653053570538759
+Average RDN loss:  0.00013563741299549292
+40 : 0.0
+[[1415.  699.  158.    0.    0.    0.    0.    0.    0.    0.    0.    0.]
+ [ 575.  290.   94.    3.    1.    0.    0.    0.    0.    0.    0.    0.]
+ [ 249.  177.   53.   17.    5.    0.    0.    0.    0.    0.    0.    0.]
+ [ 150.  102.   33.    5.    0.    0.    0.    0.    0.    0.    0.    0.]]
+tensor(0.0001, grad_fn=<AddBackward0>) tensor(0.0010, grad_fn=<PowBackward0>)
+Test reward:  0.0
+LR:  0.002
+replay buffer size:  4026
+training steps:  33
+Average siam loss:  -0.7127493657171726
+Average RDN loss:  0.00011141787831547845
+50 : 0.0
+[[1734.  847.  190.    0.    0.    0.    0.    0.    0.    0.    0.    0.]
+ [ 721.  366.  114.    4.    1.    0.    0.    0.    0.    0.    0.    0.]
+ [ 334.  223.   69.   23.    6.    0.    0.    0.    0.    0.    0.    0.]
+ [ 197.  127.   45.    6.    1.    0.    0.    0.    0.    0.    0.    0.]]
+tensor(0.0001, grad_fn=<AddBackward0>) tensor(0.0010, grad_fn=<PowBackward0>)
+Test reward:  0.0
+LR:  0.002
+replay buffer size:  5008
+training steps:  43
+Average siam loss:  -0.7709068842232227
+Average RDN loss:  9.730179453981691e-05
+60 : 0.0
+[[1995.  975.  214.    0.    0.    0.    0.    0.    0.    0.    0.    0.]
+ [ 861.  455.  142.    4.    2.    2.    0.    0.    0.    0.    0.    0.]
+ [ 409.  281.   88.   27.   11.    4.    0.    0.    0.    0.    0.    0.]
+ [ 260.  161.   60.    6.    1.    0.    0.    0.    0.    0.    0.    0.]]
+tensor(0.0001, grad_fn=<AddBackward0>) tensor(0.0010, grad_fn=<PowBackward0>)
+Test reward:  0.0
+LR:  0.002
+replay buffer size:  5958
+training steps:  53
+Average siam loss:  -0.778275229036808
+Average RDN loss:  0.0001043928639319347
+70 : 0.0
+[[2210. 1105.  251.    0.    0.    0.    0.    0.    0.    0.    0.    0.]
+ [ 995.  534.  172.    6.    2.    2.    0.    0.    0.    0.    0.    0.]
+ [ 471.  317.   99.   31.   11.    4.    0.    0.    0.    0.    0.    0.]
+ [ 291.  178.   66.    7.    1.    0.    0.    0.    0.    0.    0.    0.]]
+tensor(0.0001, grad_fn=<AddBackward0>) tensor(0.0010, grad_fn=<PowBackward0>)
+Test reward:  0.0
+LR:  0.002
+replay buffer size:  6753
+training steps:  63
+Average siam loss:  -0.7653262633830309
+Average RDN loss:  0.00012189507538096223
+80 : 0.0
+[[2495. 1216.  287.    0.    0.    0.    0.    0.    0.    0.    0.    0.]
+ [1121.  597.  195.    8.    4.    2.    0.    0.    0.    0.    0.    0.]
+ [ 537.  369.  122.   40.   14.    4.    0.    0.    0.    0.    0.    0.]
+ [ 335.  207.   75.   10.    2.    0.    0.    0.    0.    0.    0.    0.]]
+tensor(0.0001, grad_fn=<AddBackward0>) tensor(0.0010, grad_fn=<PowBackward0>)
+Test reward:  0.0
+LR:  0.002
+replay buffer size:  7640
+training steps:  73
+Average siam loss:  -0.7835192885249853
+Average RDN loss:  9.611737027626077e-05
+90 : 0.0
+[[2772. 1328.  320.    0.    0.    0.    0.    0.    0.    0.    0.    0.]
+ [1250.  670.  211.   11.    4.    2.    0.    0.    0.    0.    0.    0.]
+ [ 623.  420.  133.   43.   14.    4.    0.    0.    0.    0.    0.    0.]
+ [ 402.  247.   94.   10.    2.    0.    0.    0.    0.    0.    0.    0.]]
+tensor(0.0001, grad_fn=<AddBackward0>) tensor(0.0010, grad_fn=<PowBackward0>)
+Test reward:  0.0
+LR:  0.002
+replay buffer size:  8560
+training steps:  83
+Average siam loss:  -0.706872483715415
+Average RDN loss:  0.0001054726440088416
+100 : 0.0
+[[3112. 1456.  351.    0.    0.    0.    0.    0.    0.    0.    0.    0.]
+ [1429.  748.  233.   12.    5.    2.    0.    0.    0.    0.    0.    0.]
+ [ 713.  476.  149.   46.   16.    5.    0.    0.    0.    0.    0.    0.]
+ [ 455.  271.  108.   10.    2.    0.    0.    0.    0.    0.    0.    0.]]
+tensor(0.0001, grad_fn=<AddBackward0>) tensor(0.0010, grad_fn=<PowBackward0>)
+Test reward:  0.0
+LR:  0.002
+replay buffer size:  9599
+training steps:  93
+Average siam loss:  -0.7910882867872715
+Average RDN loss:  0.00011481982892291853
+110 : 0.0
+[[3420. 1591.  383.    0.    0.    0.    0.    0.    0.    0.    0.    0.]
+ [1559.  826.  256.   12.    5.    2.    0.    0.    0.    0.    0.    0.]
+ [ 786.  527.  165.   51.   19.    6.    1.    1.    0.    0.    0.    0.]
+ [ 490.  302.  124.   11.    2.    0.    0.    0.    0.    0.    0.    0.]]
+tensor(0.0002, grad_fn=<AddBackward0>) tensor(0.0010, grad_fn=<PowBackward0>)
+Test reward:  0.0
+LR:  0.002
+replay buffer size:  10539
+training steps:  103
+Average siam loss:  -0.7585576791316271
+Average RDN loss:  0.00025775280596462835
+120 : 0.0
+[[3592. 1668.  403.    0.    0.    0.    0.    0.    0.    0.    0.    0.]
+ [1707.  926.  287.   13.    5.    2.    0.    0.    0.    0.    0.    0.]
+ [ 894.  634.  187.   52.   19.    6.    1.    1.    0.    0.    0.    0.]
+ [ 542.  362.  148.   11.    2.    0.    0.    0.    0.    0.    0.    0.]]
+tensor(0.0001, grad_fn=<AddBackward0>) tensor(0.0010, grad_fn=<PowBackward0>)
+Test reward:  0.0
+LR:  0.002
+replay buffer size:  11462
+training steps:  113
+Average siam loss:  -0.7771966196596622
+Average RDN loss:  0.0001140949182172335
+130 : 0.0
+[[3843. 1761.  432.    0.    0.    0.    0.    0.    0.    0.    0.    0.]
+ [1849. 1017.  317.   14.    5.    2.    0.    0.    0.    0.    0.    0.]
+ [ 985.  688.  196.   55.   20.    6.    1.    1.    0.    0.    0.    0.]
+ [ 612.  398.  159.   11.    3.    0.    0.    0.    0.    0.    0.    0.]]
+tensor(8.3271e-05, grad_fn=<AddBackward0>) tensor(0.0010, grad_fn=<PowBackward0>)
+Test reward:  0.0
+LR:  0.002
+replay buffer size:  12375
+training steps:  123
+Average siam loss:  -0.7872407045215368
+Average RDN loss:  6.92288111849848e-05
+140 : 0.0
+[[4135. 1875.  469.    0.    0.    0.    0.    0.    0.    0.    0.    0.]
+ [1984. 1090.  341.   14.    6.    2.    0.    0.    0.    0.    0.    0.]
+ [1062.  738.  208.   58.   22.    6.    1.    1.    0.    0.    0.    0.]
+ [ 671.  436.  167.   12.    3.    0.    0.    0.    0.    0.    0.    0.]]
+tensor(5.7566e-05, grad_fn=<AddBackward0>) tensor(0.0010, grad_fn=<PowBackward0>)
+Test reward:  0.0
+LR:  0.002
+replay buffer size:  13301
+training steps:  133
+Average siam loss:  -0.7805971223860979
+Average RDN loss:  5.176556965125201e-05
+150 : 0.0
+[[4402. 1983.  499.    0.    0.    0.    0.    0.    0.    0.    0.    0.]
+ [2135. 1174.  372.   17.    6.    2.    0.    0.    0.    0.    0.    0.]
+ [1152.  789.  221.   62.   22.    6.    1.    1.    0.    0.    0.    0.]
+ [ 718.  467.  177.   12.    3.    0.    0.    0.    0.    0.    0.    0.]]
+tensor(4.9636e-05, grad_fn=<AddBackward0>) tensor(0.0010, grad_fn=<PowBackward0>)
+Test reward:  0.0
+LR:  0.002
+replay buffer size:  14221
+training steps:  143
+Average siam loss:  -0.7760605905205011
+Average RDN loss:  4.9731994181456685e-05
+160 : 0.0
+[[4682. 2079.  530.    0.    0.    0.    0.    0.    0.    0.    0.    0.]
+ [2292. 1268.  391.   17.    6.    2.    0.    0.    0.    0.    0.    0.]
+ [1242.  856.  239.   71.   25.    7.    2.    1.    0.    0.    0.    0.]
+ [ 777.  510.  192.   16.    4.    0.    0.    0.    0.    0.    0.    0.]]
+tensor(4.6541e-05, grad_fn=<AddBackward0>) tensor(0.0010, grad_fn=<PowBackward0>)
+Test reward:  0.0
+LR:  0.002
+replay buffer size:  15209
+training steps:  153
+Average siam loss:  -0.7940961830317974
+Average RDN loss:  4.6782289246039e-05
+170 : 0.0
+[[5007. 2193.  561.    0.    0.    0.    0.    0.    0.    0.    0.    0.]
+ [2464. 1359.  414.   17.    6.    2.    0.    0.    0.    0.    0.    0.]
+ [1333.  910.  252.   72.   25.    7.    2.    1.    0.    0.    0.    0.]
+ [ 835.  541.  208.   16.    4.    0.    0.    0.    0.    0.    0.    0.]]
+tensor(4.3873e-05, grad_fn=<AddBackward0>) tensor(0.0010, grad_fn=<PowBackward0>)
+Test reward:  0.0
+LR:  0.002
+replay buffer size:  16229
+training steps:  163
+Average siam loss:  -0.7926516402512789
+Average RDN loss:  3.760799972951645e-05
+180 : 0.0
+[[5277. 2311.  589.    0.    0.    0.    0.    0.    0.    0.    0.    0.]
+ [2611. 1443.  444.   20.    6.    2.    0.    0.    0.    0.    0.    0.]
+ [1425.  975.  281.   82.   25.    7.    2.    1.    0.    0.    0.    0.]
+ [ 888.  578.  222.   16.    4.    0.    0.    0.    0.    0.    0.    0.]]
+tensor(6.8024e-05, grad_fn=<AddBackward0>) tensor(0.0010, grad_fn=<PowBackward0>)
+Test reward:  0.0
+LR:  0.002
+replay buffer size:  17209
+training steps:  173
+Average siam loss:  -0.7602458670735359
+Average RDN loss:  6.534588987960888e-05
+190 : 0.0
+[[5552. 2443.  618.    0.    0.    0.    0.    0.    0.    0.    0.    0.]
+ [2763. 1525.  468.   21.    7.    2.    0.    0.    0.    0.    0.    0.]
+ [1517. 1028.  299.   93.   28.    8.    2.    1.    0.    0.    0.    0.]
+ [ 969.  624.  233.   19.    4.    1.    0.    0.    0.    0.    0.    0.]]
+tensor(4.2643e-05, grad_fn=<AddBackward0>) tensor(0.0010, grad_fn=<PowBackward0>)
+Test reward:  0.0
+LR:  0.002
+replay buffer size:  18225
+training steps:  183
+Average siam loss:  -0.7765497248619795
+Average RDN loss:  3.0746678078230616e-05
+200 : 0.0
+[[5832. 2582.  648.    0.    0.    0.    0.    0.    0.    0.    0.    0.]
+ [2898. 1598.  495.   23.    7.    2.    0.    0.    0.    0.    0.    0.]
+ [1598. 1083.  321.  102.   30.    8.    2.    1.    0.    0.    0.    0.]
+ [1038.  671.  243.   22.    5.    1.    0.    0.    0.    0.    0.    0.]]
+tensor(2.8450e-05, grad_fn=<AddBackward0>) tensor(0.0010, grad_fn=<PowBackward0>)
+Test reward:  0.0
+LR:  0.002
+replay buffer size:  19210
+training steps:  193
+Average siam loss:  -0.7739269621670246
+Average RDN loss:  2.8504620445346518e-05
+210 : 0.0
+[[6110. 2706.  684.    0.    0.    0.    0.    0.    0.    0.    0.    0.]
+ [3064. 1681.  517.   24.    7.    2.    0.    0.    0.    0.    0.    0.]
+ [1678. 1132.  334.  105.   30.    8.    2.    1.    0.    0.    0.    0.]
+ [1104.  717.  252.   23.    5.    1.    0.    0.    0.    0.    0.    0.]]
+tensor(2.7290e-05, grad_fn=<AddBackward0>) tensor(0.0010, grad_fn=<PowBackward0>)
+Test reward:  0.0
+LR:  0.002
+replay buffer size:  20187
+training steps:  203
+Average siam loss:  -0.7722404953092337
+Average RDN loss:  2.5986826074131386e-05
+220 : 0.0
+[[6378. 2801.  717.    0.    0.    0.    0.    0.    0.    0.    0.    0.]
+ [3198. 1747.  541.   25.    7.    2.    0.    0.    0.    0.    0.    0.]
+ [1767. 1181.  354.  108.   31.    8.    2.    1.    0.    0.    0.    0.]
+ [1155.  744.  265.   24.    6.    1.    0.    0.    0.    0.    0.    0.]]
+tensor(2.6309e-05, grad_fn=<AddBackward0>) tensor(0.0010, grad_fn=<PowBackward0>)
+Test reward:  0.0
+LR:  0.002
+replay buffer size:  21063
+training steps:  213
+Average siam loss:  -0.7844772692769766
+Average RDN loss:  2.3987979488993005e-05
+230 : 0.0
+[[6664. 2936.  747.    0.    0.    0.    0.    0.    0.    0.    0.    0.]
+ [3337. 1834.  569.   27.    7.    2.    0.    0.    0.    0.    0.    0.]
+ [1854. 1232.  365.  114.   33.    8.    2.    1.    0.    0.    0.    0.]
+ [1215.  787.  276.   25.    6.    1.    0.    0.    0.    0.    0.    0.]]
+tensor(2.6715e-05, grad_fn=<AddBackward0>) tensor(0.0010, grad_fn=<PowBackward0>)
+Test reward:  0.0
+LR:  0.002
+replay buffer size:  22042
+training steps:  223
+Average siam loss:  -0.7837003991007805
+Average RDN loss:  2.9294629825926677e-05
+240 : 0.0
+[[6946. 3061.  779.    0.    0.    0.    0.    0.    0.    0.    0.    0.]
+ [3498. 1928.  594.   28.    7.    2.    0.    0.    0.    0.    0.    0.]
+ [1930. 1292.  377.  117.   33.    8.    2.    1.    0.    0.    0.    0.]
+ [1278.  831.  288.   26.    6.    1.    0.    0.    0.    0.    0.    0.]]
+tensor(8.1613e-05, grad_fn=<AddBackward0>) tensor(0.0010, grad_fn=<PowBackward0>)
+Test reward:  0.0
+LR:  0.002
+replay buffer size:  23033
+training steps:  233
+Average siam loss:  -0.7740432377904654
+Average RDN loss:  5.2835011047136504e-05

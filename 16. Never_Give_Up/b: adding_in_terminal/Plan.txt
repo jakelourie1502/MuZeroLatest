@@ -1,0 +1,26 @@
+///Rewards: {1: any move from goal state, -1: any move from lake state, 0.5: collecting star, -0.05: any other move} 
+///Environment: must produce a star, and then any move subsequent to the person landing in the star should remove the star.
+///Environment: player must start in opposite corner to the goal, and star can be anywhere else.
+
+//Dynamic function: {must output a reward as well as a state function}
+//Prediction function: proper support
+
+//Loss function must now include a reward scalar as well.
+//Reward support: 21 supports from -1 to 1 for predicting the reward function.
+//-FUNCTION: turns this into a scalar value for mcts
+//-FUNCTION: turns a scalar value into probability target values across 21 values
+
+//Value support: 36 supports from -2 to 2 for predicting the value function
+//-FUNCTION: turns this into a scalar value for mcts
+//-FUNCTION: turns a scalar value into probability target values across 21 values
+
+
+//Target value should be the N=5 step return + value function we calculate during MCTS 
+//Episode: store relevant metrics including the V of a certain observation.
+//mcts: needs to include reward prediction too. 
+//mcts: only runs dynamic function when we actually choose that node.
+//Also need to log the rewards differently 
+//Need to update the replay buffer
+//Training: train against rewards too.
+
+//Need to track the total reward of an episode for evaluation purposes.

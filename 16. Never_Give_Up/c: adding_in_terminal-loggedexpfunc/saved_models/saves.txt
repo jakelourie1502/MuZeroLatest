@@ -1,0 +1,12 @@
+_save ...
+
+1.25 c1
+node.N**2 + 0.25 as denom.
+policy coef 0.1 with only 100 ramp up.
+setting Q value to parent node regardless
+
+_save_100 ...
+from above, just remove the N**2.
+change the Q thing so that we take the previous estimation of the Q from the mcts turn we just did and use that as the initial q value. 
+mcts_plays to 100
+k = 5
