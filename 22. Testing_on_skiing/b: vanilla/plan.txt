@@ -1,0 +1,5 @@
+Add Skiing environment to game play folder (and copy relevant global settings from frozen_lake to skiing) #DONE
+Change all relevant global settings. #DONE
+Add the Deque functionality to the skiing thing. #DONE
+Make sure to bring skiing in to the episode playing thing.
+Change viewing_state_value to look at where the skiier goes.

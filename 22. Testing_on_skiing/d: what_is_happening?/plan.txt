@@ -1,0 +1,8 @@
+What impacts the policy?
+What impacts the action?
+--- Qe v Q. 
+--- exp_r, exp_v, r, v 
+
+record action, policy, and those 6 variables for all child nodes and plot a scatter graph
+
+So for all of the children, record values of each those things, normalize them and then plot policy v each of them and action (yes/no) versus each of them.

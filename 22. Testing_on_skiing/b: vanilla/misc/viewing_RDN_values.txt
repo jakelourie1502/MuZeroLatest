@@ -1,0 +1,4 @@
+tensor(0.0168) tensor(0.0058)
+Looking Two ahead
+move:  0
+80

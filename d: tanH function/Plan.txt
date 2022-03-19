@@ -1,7 +1,0 @@
-**different Gamma so V function doesn't escalate: UNIT TEST: print out sample V step returns.
-**change mean calculation to take into account number of dones (len()-sum(dones)).: UNIT TEST: print out length of array and number of dones.
-**Only doing max (0, ...) on the Q values. Sample: Print some Q values and some exp_v / exp_r values.
-**Change RDN function to (x- mu)/ (3*sigma), UNIT TEST: print out the RDN functions, should almost all be below 1.
-**Change exp_value support to between -5 and 5
-**update RDN function with 1st move MCTS plays at end of each epoch.
-**to remove crazy values in RDN, use random function for novelty_preds (may not be necessary, found -ve error)
